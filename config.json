@@ -1,0 +1,22 @@
+{
+  "teams_context_doc": "teams_context.md",
+  "task_summaries_dir": "task_summaries",
+  "llm_config": {
+    "model": "gpt-4",
+    "api_key": null,
+    "api_url": "https://api.openai.com/v1/chat/completions",
+    "max_tokens": 500,
+    "temperature": 0.7
+  },
+  "slack_config": {
+    "webhook_url": null,
+    "channel": "#standups",
+    "bot_name": "StandupBot",
+    "icon_emoji": ":robot_face:"
+  },
+  "automation_settings": {
+    "days_to_look_back": 5,
+    "save_records": true,
+    "records_directory": "standup_records"
+  }
+}

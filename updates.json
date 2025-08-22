@@ -1,0 +1,45 @@
+{
+  "Alex": {
+    "dashboard_integration": {
+      "status": "Done",
+      "summary": "Integrated real endpoints into the dashboard, removing mock data. The dashboard is now pulling real user data."
+    },
+    "form_validation": {
+      "status": "In Progress",
+      "summary": "Planning to add proper form validation on the frontend and clean up error handling."
+    }
+  },
+  "Jordan": {
+    "profile_endpoints": {
+      "status": "Done",
+      "summary": "Completed profile endpoints and deployed to staging. Fixed validation issues with Sam."
+    },
+    "password_reset_email": {
+      "status": "In Progress",
+      "summary": "Implementing password reset email functionality and improving API documentation. Blocked on email service credentials."
+    }
+  },
+  "Sam": {
+    "regression_tests": {
+      "status": "Done",
+      "summary": "Ran regression tests on Jordan's updated APIs, all passed. Found minor UI issues in Alex's frontend integration."
+    },
+    "end_to_end_tests": {
+      "status": "To Do",
+      "summary": "Planning to run full end-to-end tests now that the complete flow is working."
+    }
+  },
+  "Taylor": {
+    "production_access": {
+      "status": "Done",
+      "summary": "Gained production access and familiarized with the setup."
+    },
+    "email_service_configuration": {
+      "status": "In Progress",
+      "summary": "Configuring the email service for Jordan and deploying the monitoring dashboard."
+    }
+  },
+  "new tasks": {
+    "email_service_credentials": "Jordan"
+  }
+}

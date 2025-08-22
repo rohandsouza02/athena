@@ -1,0 +1,110 @@
+
+# Standup Analysis Prompt
+
+## Task
+Extract structured task updates from the standup transcript and format as JSON.
+
+## Input
+- Today's standup transcript
+- Team context and goals
+- Previous standup summaries
+
+## Output Format
+```json
+{
+  "Person A": {
+    "task1": {
+      "status": "Done/In Progress/Test Cases/To Do",
+      "summary": "Brief task description and progress"
+    },
+    "task2": {
+      "status": "Done/In Progress/Test Cases/To Do", 
+      "summary": "Brief task description and progress"
+    }
+  }
+}
+```
+
+## Instructions
+1. **Extract all tasks** mentioned by each team member
+2. **Classify status** as exactly: "To Do", "In Progress", "Test Cases", or "Done"
+3. **Write brief summaries** (1-2 sentences) including progress, blockers, or next steps
+4. **Use descriptive task names** like "user_login_api" or "database_migration"
+5. **If unclear status**, default to "In Progress"
+6. **If no specific tasks mentioned**, use "general_updates" as task name
+
+## Example
+Input: "I finished the login API and started the password reset feature but I'm blocked on email integration"
+
+Output:
+```json{
+"John": {
+  "login_api": {
+    "status": "Done",
+    "summary": "Login API completed"
+  },
+  "password_reset_feature": {
+    "status": "In Progress", 
+    "summary": "Started development, blocked on email service integration"
+  }
+}
+
+ 
+
+
+\ 
+        Based on the following information, generate a concise standup update:
+
+        MEETING TRANSCRIPT:
+        Good morning team! Alex, your updates?
+Morning! So Jordan came through yesterday - he got those APIs deployed to staging! I spent the afternoon integrating the real endpoints and removing all the mock data. The dashboard is actually pulling real user data now and it looks great.
+How's the integration going? Any issues with the API responses?
+Actually, really smooth! Your documentation was spot on. Today I want to add proper form validation on the frontend and maybe clean up some of the error handling.
+That's great to hear. Jordan?
+Thanks! Yeah, yesterday I got the profile endpoints done and deployed everything to staging. I also worked with Sam to fix those validation issues she found - that's all sorted now. Today I'm implementing the password reset email functionality and improving the API documentation. Oh, and I want to add rate limiting to prevent abuse.
+Jordan, for the email functionality, I think I can get you the email service credentials today. I finally got production access!
+Oh awesome! That was my main blocker actually.
+Taylor, you got access! How did that happen?
+Yeah! Late yesterday afternoon it came through. I spent the evening getting familiar with the production setup. Today I'm configuring the email service for Jordan and getting our monitoring dashboard deployed.
+This is great - everything's coming together!
+Sam, how are things on your end?
+Really good! Yesterday I ran regression tests on all of Jordan's updated APIs and everything passed. I also started testing Alex's frontend integration - found a few minor UI issues but nothing blocking. Today I want to run a full end-to-end test now that we have the complete flow working.
+What kind of UI issues?
+Just some validation messages not displaying properly on mobile. I'll send you screenshots after this.
+Perfect, thanks.
+Sounds like we're in really good shape! Any blockers for today?
+Just waiting for those email credentials from Taylor.
+I'll get those to you within the hour.
+Excellent. I think we might be ready for a release by Friday if testing goes well today. Great work everyone! Let's reconvene tomorrow to plan the release.
+Exciting! Thanks everyone, this has been a really productive week.
+Agreed! See you all tomorrow.
+
+        
+        TEAMS CONTEXT:
+        Alex - Frontend Developer
+Jordan - Backend Developer
+Sam - QA Engineer
+Taylor - DevOps Engineer
+Jaden - (managing the meeting, asking for updates, following up on blockers)
+
+        
+        CURRENT TASKS:
+        [{'task_id': 'PROJ-101', 'task_name': 'User Dashboard Redesign', 'task_def': 'Redesign the user dashboard with new wireframes, implement responsive layout using design system components, add data visualization components and user profile section', 'status': 'In Progress', 'assigned_to': 'Alex'}, {'task_id': 'PROJ-102', 'task_name': 'Authentication API Development', 'task_def': 'Implement user authentication system including database schema, registration and login endpoints, user profile management, password reset functionality with email integration, input validation and rate limiting', 'status': 'In Progress', 'assigned_to': 'Jordan'}, {'task_id': 'PROJ-103', 'task_name': 'API Testing Framework Setup', 'task_def': 'Set up automated testing framework for API endpoints, write comprehensive test cases for authentication features, perform regression testing and end-to-end testing of frontend integration', 'status': 'In Progress', 'assigned_to': 'Sam'}, {'task_id': 'PROJ-104', 'task_name': 'CI/CD Pipeline Configuration', 'task_def': 'Configure CI/CD pipeline for new microservice, set up Docker containers, staging and production environments, implement automated testing integration, optimize build processes and deploy monitoring dashboard', 'status': 'In Progress', 'assigned_to': 'Taylor'}, {'task_id': 'PROJ-105', 'task_name': 'Frontend API Integration', 'task_def': 'Integrate frontend dashboard with real API endpoints, remove mock data connections, implement proper form validation and error handling for user interactions', 'status': 'Almost Complete', 'assigned_to': 'Alex'}, {'task_id': 'PROJ-106', 'task_name': 'Production Environment Setup', 'task_def': 'Configure production AWS environment access, set up email service credentials for password reset functionality, deploy monitoring and logging systems', 'status': 'In Progress', 'assigned_to': 'Taylor'}, {'task_id': 'PROJ-107', 'task_name': 'Mobile UI Bug Fixes', 'task_def': 'Fix validation message display issues on mobile devices, ensure responsive design works correctly across all screen sizes', 'status': 'To Do', 'assigned_to': 'Alex'}, {'task_id': 'PROJ-108', 'task_name': 'API Documentation Update', 'task_def': 'Improve and update API documentation for authentication endpoints, provide clear specifications for frontend integration', 'status': 'In Progress', 'assigned_to': 'Jordan'}]
+
+        
+        PREVIOUS DAYS SUMMARIES:
+        "Alright everyone, let's get started. Good morning! Alex, why don't you kick us off with your updates?\nHey everyone! Good morning. So yesterday... well, it was Sunday, so not much work stuff. But today I'm planning to start on the user dashboard redesign. I've got the Figma files from design team and I'm going to begin with the wireframes and setting up the basic component structure.\nSounds good. Any blockers?\nNope, all clear on my end.\nGreat. Jordan, you're up.\nMorning! Yeah, so I'm starting fresh on the authentication API today. Going to work on the database schema first, then move into the actual endpoints. Should be straightforward.\nWhich database are we using for this? Is it the same PostgreSQL instance?\nYep, same one. Just adding new tables for user auth.\nPerfect. Sam, your turn.\nRight, so I spent some time yesterday reviewing the requirements for this sprint. Today I want to start writing test cases for the authentication stuff. Only blocker is I'm still waiting for the final requirements doc from product team.\nI'll follow up with them after this meeting. Taylor?\nHey, good morning everyone! I'm setting up the CI/CD pipeline for the new microservice today. Got Docker containers to configure and need to get the staging environment ready.\nTaylor, will the staging environment be ready by Wednesday? I'd love to deploy and test the frontend integration.\nYeah, should be good by then. I'll let you know.\nAlright, sounds like everyone's got a clear plan. Let's reconvene tomorrow. Thanks everyone!"
+----------
+"Morning everyone! Alex, you're up first.\nHey! Yesterday was productive - got the entire dashboard layout done and the responsive design is working great. Today I want to add the data visualization components and start connecting to the mock API for now. Also planning to work on the user profile section.\nActually Alex, my endpoints might be ready sooner than expected. Let me check where I'm at after this standup.\nOh that would be awesome! I'd much rather connect to real data.\nLove the collaboration. Jordan, your updates?\nYeah, so yesterday I completed both the registration and login APIs, including all the validation logic. Today I'm working on user profile management endpoints and the password reset functionality. If all goes well, I should be able to deploy to staging this afternoon.\nThat's perfect timing!\nSam, how did testing go?\nGood! I got the testing framework fully set up yesterday and I was able to run some initial tests on Jordan's registration endpoint. Found a couple minor issues - nothing major, just some edge cases with validation.\nYeah, Sam messaged me about those. Easy fixes, I can get those done this morning.\nThanks! Today I want to run the full test suite once you deploy, and then I'll start preparing tests for Alex's frontend integration.\nExcellent. Taylor?\nStill waiting on that production access, which is getting frustrating. But I've been productive - got the automated testing integrated into the pipeline yesterday and environment variables are all configured. Today I'm optimizing our Docker images to reduce build times and setting up monitoring.\nI escalated your access request yesterday. Let me ping our security team right after this meeting.\nThanks, I appreciate it.\nHey, once Taylor gets production access, how quickly can we do a production deploy?\nWe'll need to do a proper release plan, but shouldn't be more than a day or two after everything's ready.\nAny other blockers? Just the AWS access?\nThat's the main one, yeah.\nAlright, I'll get that sorted today. See everyone tomorrow!"
+----------
+"Good morning team! Alex, let's start with you again.\nMorning! Yesterday went well - got the wireframes done and set up all the basic React components for the dashboard. Today I'm going to work on the actual layout implementation and make sure everything's responsive. Should be able to integrate with our design system components.\nHow's the component structure looking?\nPretty clean actually. I'm using the new component library we built last month, so it's going smoothly.\nExcellent. Jordan, your updates?\nGood progress yesterday. Database schema is all set up and I got the user registration endpoint mostly done. Today I want to finish that up and start on the login functionality. Need to add proper validation and error handling too.\nJordan, when you're ready, can you drop the API specs in Slack? I want to make sure my test cases align.\nSure, I'll send them over after this meeting.\nGreat collaboration. Sam?\nThanks! So yesterday I finished up most of the test case documentation and started setting up the automated testing framework for the API endpoints. Today I want to get that framework fully configured so we can start running tests as soon as Jordan's endpoints are ready.\nActually, registration endpoint should be testable by end of day today.\nPerfect! I'll be ready.\nTaylor, how are things on your end?\nDocker containers are all configured now. Yesterday was mostly about getting the basic CI/CD structure in place. Today I'm working on adding the automated testing into the pipeline and getting all the environment variables configured properly.\nAny blockers for anyone?\nStill waiting on that requirements document, but I'm proceeding with what we have.\nI need access to the production AWS account. I put in the request but it hasn't been approved yet.\nI'll escalate that for you today. Anything else? Alright, see you all tomorrow."
+----------
+
+        
+        Please generate a standup update in the following format:
+        - What was accomplished yesterday
+        - What will be worked on today
+        - Any blockers or issues
+        
+        Keep it concise and professional.
+        

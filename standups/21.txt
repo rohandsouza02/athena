@@ -1,0 +1,15 @@
+Alright everyone, let's get started. Good morning! Alex, why don't you kick us off with your updates?
+Hey everyone! Good morning. So yesterday... well, it was Sunday, so not much work stuff. But today I'm planning to start on the user dashboard redesign. I've got the Figma files from design team and I'm going to begin with the wireframes and setting up the basic component structure.
+Sounds good. Any blockers?
+Nope, all clear on my end.
+Great. Jordan, you're up.
+Morning! Yeah, so I'm starting fresh on the authentication API today. Going to work on the database schema first, then move into the actual endpoints. Should be straightforward.
+Which database are we using for this? Is it the same PostgreSQL instance?
+Yep, same one. Just adding new tables for user auth.
+Perfect. Sam, your turn.
+Right, so I spent some time yesterday reviewing the requirements for this sprint. Today I want to start writing test cases for the authentication stuff. Only blocker is I'm still waiting for the final requirements doc from product team.
+I'll follow up with them after this meeting. Taylor?
+Hey, good morning everyone! I'm setting up the CI/CD pipeline for the new microservice today. Got Docker containers to configure and need to get the staging environment ready.
+Taylor, will the staging environment be ready by Wednesday? I'd love to deploy and test the frontend integration.
+Yeah, should be good by then. I'll let you know.
+Alright, sounds like everyone's got a clear plan. Let's reconvene tomorrow. Thanks everyone!
