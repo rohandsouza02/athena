@@ -89,7 +89,10 @@ Update JIRA ticket status and summaries from standup transcript.
       "summary": "Updated progress with context from previous days"
     }
   },
-  "blockers": {}
+  "blockers": {
+    "Person A": {
+      "PROJ-102": "Waiting on final design assets from the product team for the landing page development."
+    }
 }
 Instructions
 Match standup updates to JIRA ticket IDs
@@ -99,6 +102,7 @@ If new work is related to existing ticket, add it to that ticket's summary
 Default to "In Progress" if unclear. 
 In case a new ticket which is currently in "To Do" and will be started today move it to "In Progress"
 If there is any blocker, mention that with the person involved
+Write the summary in directive form, describing what the person should do next rather than what has been done. Use a formal tone. Example: instead of saying ‘Partial progress has been made; inconsistencies are being clarified with the growth team’, write ‘Clarify inconsistencies in the copy with the growth team and complete the page
 """
 import argparse
 import json
@@ -116,6 +120,25 @@ print(f"Webhook URL loaded: {bool(os.getenv('SLACK_WEBHOOK_URL'))}")
 # Configure logging
 logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
 logger = logging.getLogger(__name__)
+
+
+import json
+import re
+
+def clean_json_string(json_string):
+    """
+    Remove markdown code block formatting from JSON string
+    """
+    # Remove ```json at the beginning
+    cleaned = re.sub(r'^```json\s*\n?', '', json_string.strip())
+    
+    # Remove ``` at the end
+    cleaned = re.sub(r'\n?```\s*$', '', cleaned)
+    
+    # Remove escaped newlines if present
+    cleaned = cleaned.replace('\\n', '\n')
+    
+    return cleaned.strip()
 
 
 class StandupAutomation:
@@ -167,16 +190,28 @@ class StandupAutomation:
         except FileNotFoundError:
             logger.warning(f"Teams context doc {context_doc} not found")
             return "No Teams context available"
-    def get_jira_tasks(self) -> List[str]:
+    
+    def get_jira_tasks(self) -> List[Dict[str, str]]:
         """
-        Gets tasks from JIRA.
+        Gets tasks from JIRA current sprint.
         Returns a list of dict {
-        task_id: 
-        task_name:
-        task_def:
+            task_id: 
+            task_name:
+            task_def:
+            status:
+            assigned_to:
         }
         """
-        return TEST_TASKS
+        try:
+            from sprint_report_generator import JiraClient
+            jira_client = JiraClient(self.config.get("jira", {}))
+            a =  jira_client.get_jira_tasks()
+            print(a)
+            return a
+        except Exception as e:
+            logger.error(f"Failed to fetch JIRA tasks: {e}")
+            logger.info("Falling back to test data")
+            return TEST_TASKS
     
     def get_previous_summaries(self, days: int = 5) -> List[Dict]:
         """Get task summaries from the previous N days."""
@@ -285,7 +320,7 @@ class StandupAutomation:
                     }
                 ],
                 # max_tokens=llm_config.get("max_tokens", 500),
-                temperature=llm_config.get("temperature", 0.1)
+                temperature=llm_config.get("temperature", 1.0)
             )
 
             return response.choices[0].message.content.strip()
@@ -297,44 +332,70 @@ class StandupAutomation:
             logger.error(f"Error calling OpenAI API: {e}")
             return f"Error generating standup: {str(e)}"
     
-    def send_to_slack(self, standup_update: str, jira_tasks: List[Dict]) -> bool:
-        """Send the standup update to Slack."""
+    def send_to_slack(self, current_tasks: List[Dict], standup_update: str) -> bool:
+        """Send task updates to Slack via webhook."""
         slack_config = self.config.get("slack_config", {})
-        webhook_url = slack_config.get("webhook_url")
+        webhook_url = "localhost:3000"
 
+        # Parse standup_update to extract task updates
+        task_updates = []
+        try:
+            import json
+            parsed_update = json.loads(clean_json_string(standup_update))
+            
+            # Extract blockers information
+            blockers_info = parsed_update.get("blockers", {})
+            
+            for person, tasks in parsed_update.items():
+                if person == "blockers":
+                    continue
+                    
+                for task_id, task_info in tasks.items():
+                    # Find the current task details
+                    current_task = next((t for t in current_tasks if t.get("task_id") == task_id), None)
+                    
+                    if current_task:
+                        # Get previous status from current_tasks (assuming this is the previous state)
+                        prev_status = current_task.get("status", "Unknown")
+                        current_status = task_info.get("status", prev_status)
+                        
+                        # Check if this person has blockers for this task
+                        blocker_reason = None
+                        if person in blockers_info and task_id in blockers_info[person]:
+                            blocker_reason = blockers_info[person][task_id]
+                        
+                        task_update = {
+                            "assignee": current_task.get("assigned_to", person),
+                            "task_id": task_id,
+                            "task_name": current_task.get("task_name", "Unknown Task"),
+                            "task_description": current_task.get("task_def", "No description"),
+                            "task_update": task_info.get("summary", "No update provided"),
+                            "prev_status": prev_status,
+                            "current_status": current_status,
+                            "blocker": blocker_reason
+                        }
+                        task_updates.append(task_update)
+                        
+        except json.JSONDecodeError:
+            logger.error("Failed to parse standup update JSON")
+            return False
+        f = open('udpates.txt', 'w')
+        f.write(str(task_updates))
+        # Construct webhook URL with /task_update endpoint
+        if not webhook_url.endswith('/'):
+            webhook_url += '/'
+        webhook_url ="http://localhost:3000/task-update"
+        
         if not webhook_url:
             logger.error("Slack webhook URL not configured")
             return False
 
-        # Format JIRA tasks for display
-        jira_text = ""
-        if jira_tasks:
-            jira_text = "\n\n*JIRA Tasks:*\n"
-            for task in jira_tasks:
-                key = task.get('key', 'N/A')
-                summary = task.get('summary', 'N/A')
-                status = task.get('status', 'Unknown')
-                jira_text += f"• {key}: {summary} ({status})\n"
-
-        message = {
-            "channel": slack_config.get("channel", "#standups"),
-            "username": slack_config.get("bot_name", "StandupBot"),
-            "text": "Daily Standup Update",
-            "attachments": [
-                {
-                    "color": "good",
-                    "text": standup_update + jira_text,
-                    "footer": f"Generated at {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}"
-                }
-            ]
-        }
-
         try:
             import requests
-            response = requests.post(webhook_url, json=message)
+            response = requests.post(webhook_url, json=task_updates, headers={'Content-Type': 'application/json'})
 
             if response.status_code == 200:
-                logger.info("Successfully sent standup update to Slack")
+                logger.info("Successfully sent task updates to Slack")
                 return True
             else:
                 logger.error(f"Failed to send to Slack. Status: {response.status_code}")
@@ -397,12 +458,11 @@ class StandupAutomation:
             standup_update = self.generate_standup_with_llm(
                 transcript, teams_context, previous_summaries, current_tasks
             )
-            print(standup_update)
             # Send to Slack
             logger.info("Standup automation completed successfully")
             # Optionally save the generated standup for future reference
             self.save_standup_record(standup_update, trigger_event)
-            success = self.send_to_slack(standup_update, trigger_event)
+            success = self.send_to_slack(current_tasks, standup_update)
             
             return success
             
@@ -432,18 +492,6 @@ class StandupAutomation:
 
 
 def main():
-    # parser = argparse.ArgumentParser(description='Standup Automation Script')
-    # parser.add_argument('--transcript', required=True, 
-    #                    help='Path to the meeting transcript file')
-    # parser.add_argument('--trigger', required=True,
-    #                    choices=['standup_meeting', 'daily_summary', 'manual_trigger'],
-    #                    help='Type of trigger event')
-    # parser.add_argument('--config', default='config.json',
-    #                    help='Path to configuration file')
-    
-    # args = parser.parse_args()
-    
-    # Initialize and run automation
     transcript_path ='24.txt'
     automation = StandupAutomation(config_path='config.json')
     success = automation.run_automation(transcript_path=transcript_path)
