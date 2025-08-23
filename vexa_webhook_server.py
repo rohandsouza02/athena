@@ -1,20 +1,36 @@
 #!/usr/bin/env python3
-from flask import Flask, request, jsonify
-import threading
-import tempfile
-import time
+"""
+Vexa Webhook Server with Transcript Processing
+Complete solution for receiving Vexa webhooks and processing transcripts
+
+Usage:
+    python vexa_webhook_server.py
+
+Features:
+- Receives Vexa webhooks with meeting IDs
+- Fetches transcripts from Vexa API
+- Cleans and processes transcripts
+- Saves to Unix timestamp files
+- Retry logic for incomplete meetings
+
+Requirements:
+    pip install flask requests
+"""
+
 import requests
+import time
 from datetime import datetime
 from typing import Dict, Any
-import os
-from standup_automation import StandupAutomation
-from sprint_report_generator import SprintReportGenerator
+from flask import Flask, request, jsonify
 
 app = Flask(__name__)
 
 # Vexa API Configuration
 VEXA_API_KEY = "Hp1CVO4z4NOmzsj22rEQmop4w72GnzN9kXCRoNws"
 VEXA_BASE_URL = "https://gateway.dev.vexa.ai"
+
+# Standup Server Configuration
+STANDUP_SERVER_URL = "http://localhost:3000/standup"  # Change this to your server URL
 
 
 def process_transcript(json_data: Dict[str, Any]) -> str:
@@ -93,7 +109,7 @@ def clean_text(text: str) -> str:
     return '. '.join(cleaned_sentences).strip()
 
 
-def fetch_transcript_from_vexa(meeting_id: str):
+def fetch_transcript_from_vexa(meeting_id: str) -> dict:
     """Fetch transcript from Vexa API using meeting ID"""
     try:
         headers = {'X-API-Key': VEXA_API_KEY}
@@ -113,80 +129,45 @@ def fetch_transcript_from_vexa(meeting_id: str):
         return None
 
 
-def run_standup_automation_async(transcript_content):
-    """Run standup automation in a separate thread"""
+def send_to_standup_server(transcript: str, meeting_id: str) -> bool:
+    """Send cleaned transcript to standup server"""
     try:
-        # Create a temporary file for the transcript
-        with tempfile.NamedTemporaryFile(mode='w', suffix='.txt', delete=False) as temp_file:
-            temp_file.write(transcript_content)
-            temp_file_path = temp_file.name
+        payload = {"transcript": transcript}
+        headers = {"Content-Type": "application/json"}
         
-        # Initialize and run automation
-        automation = StandupAutomation(config_path='config.json')
-        success = automation.run_automation(transcript_path=temp_file_path)
-        
-        # Clean up temp file
-        os.unlink(temp_file_path)
-        
-        if success:
-            print("✅ Standup automation completed successfully")
-        else:
-            print("❌ Standup automation failed")
-            
-    except Exception as e:
-        print(f"Error in async standup automation: {e}")
-
-
-def run_sprint_report_async():
-    """Run sprint report generation in a separate thread"""
-    try:
-        generator = SprintReportGenerator(config_path='config.json')
-        output_path = generator.generate_report()
-        
-        if output_path:
-            print(f"✅ Sprint report generated successfully: {output_path}")
-        else:
-            print("❌ Sprint report generation failed")
-            
-    except Exception as e:
-        print(f"Error in async sprint report generation: {e}")
-
-
-@app.route('/standup', methods=['POST'])
-def process_standup():
-    try:
-        # Get transcript from request body
-        data = request.get_json()
-        
-        if not data or 'transcript' not in data:
-            return jsonify({'error': 'Missing transcript in request body'}), 400
-        
-        transcript = data['transcript']
-        
-        if not transcript.strip():
-            return jsonify({'error': 'Empty transcript provided'}), 400
-        
-        # Start standup automation in background thread
-        thread = threading.Thread(
-            target=run_standup_automation_async, 
-            args=(transcript,),
-            daemon=True
+        print(f"📤 Sending transcript to standup server: {STANDUP_SERVER_URL}")
+        response = requests.post(
+            STANDUP_SERVER_URL,
+            json=payload,
+            headers=headers,
+            timeout=10
         )
-        thread.start()
         
-        # Return 200 immediately
-        return jsonify({
-            'status': 'success',
-            'message': 'Standup automation started successfully'
-        }), 200
-        
+        if response.status_code == 200:
+            print("✅ Successfully sent transcript to standup server")
+            return True
+        else:
+            print(f"❌ Standup server error: {response.status_code} - {response.text}")
+            return False
+            
     except Exception as e:
-        return jsonify({'error': f'Server error: {str(e)}'}), 500
+        print(f"❌ Error sending to standup server: {e}")
+        return False
+
+
+@app.route('/', methods=['GET'])
+def health_check():
+    """Health check endpoint"""
+    return jsonify({
+        "status": "ok",
+        "service": "Vexa Webhook Server",
+        "timestamp": datetime.now().isoformat()
+    })
 
 
 @app.route('/transcript', methods=['POST'])
-def receive_vexa_webhook():
-    """Receive Vexa webhook, process transcript, and trigger standup automation"""
+def receive_webhook():
+    """Receive Vexa webhook and process transcript"""
     try:
         data = request.get_json()
         
@@ -256,7 +237,7 @@ def receive_vexa_webhook():
             print(cleaned_transcript)
             print("="*80 + "\n")
             
-            # Save transcript to file with Unix timestamp
+            # Save just the transcript string to file with Unix timestamp
             unix_timestamp = int(time.time())
             filename = f"{unix_timestamp}.txt"
             
@@ -265,21 +246,16 @@ def receive_vexa_webhook():
             
             print(f"💾 Transcript saved to: {filename}")
             
-            # Call standup automation directly with cleaned transcript
-            print("🚀 Starting standup automation...")
-            thread = threading.Thread(
-                target=run_standup_automation_async,
-                args=(cleaned_transcript,),
-                daemon=True
-            )
-            thread.start()
+            # Send transcript to standup server
+            standup_success = send_to_standup_server(cleaned_transcript, meeting_id)
             
             return jsonify({
                 "status": "success",
-                "message": "Transcript processed and standup automation started",
+                "message": "Transcript processed successfully",
                 "meeting_id": meeting_id,
                 "output_file": filename,
                 "unix_timestamp": unix_timestamp,
+                "standup_sent": standup_success,
                 "processed_at": datetime.now().isoformat()
             })
             
@@ -292,41 +268,20 @@ def receive_vexa_webhook():
         return jsonify({"error": f"Webhook processing failed: {str(e)}"}), 500
 
 
-@app.route('/sprint-report', methods=['POST'])
-def process_sprint_report():
-    try:
-        # Get request data
-        data = request.get_json()
-        
-        if not data or 'sprint_comp' not in data:
-            return jsonify({'error': 'Missing sprint_comp in request body'}), 400
-        
-        sprint_comp = data['sprint_comp']
-        
-        if not sprint_comp:
-            return jsonify({'error': 'sprint_comp must be True'}), 400
-        
-        # Start sprint report generation in background thread
-        thread = threading.Thread(
-            target=run_sprint_report_async,
-            daemon=True
-        )
-        thread.start()
-        
-        # Return 200 immediately
-        return jsonify({
-            'status': 'success',
-            'message': 'Sprint report generation started successfully'
-        }), 200
-        
-    except Exception as e:
-        return jsonify({'error': f'Server error: {str(e)}'}), 500
-
-
-@app.route('/health', methods=['GET'])
-def health_check():
-    return jsonify({'status': 'healthy'}), 200
-
-
 if __name__ == '__main__':
-    app.run(host='0.0.0.0', port=5000, debug=True)
+    print("🤖 Vexa Webhook Server Starting...")
+    print(f"Health check: http://localhost:8080/")
+    print(f"Webhook endpoint: http://localhost:8080/transcript")
+    print(f"Vexa API: {VEXA_BASE_URL}")
+    print("\n🔄 Workflow:")
+    print("1. Receive Vexa webhook with meeting ID")
+    print("2. Fetch full transcript from Vexa API")
+    print("3. Clean and process transcript")
+    print("4. Output cleaned transcript with Unix timestamp filename")
+    print("\n📋 Features:")
+    print("- Retry logic: 3 attempts with 10-second delays")
+    print("- Output format: {unix_timestamp}.txt with clean transcript")
+    print("- API Key configured for Vexa gateway")
+    print("\nStarting server on 0.0.0.0:8080")
+    
+    app.run(host='0.0.0.0', port=8080, debug=False) 

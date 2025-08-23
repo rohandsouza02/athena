@@ -1,0 +1,16 @@
+# MEETING TRANSCRIPT
+**Meeting ID: cqe-necx-vqc**
+**Platform: google_meet**
+**Start Time: 2025-08-22T23:08:33.170110**
+
+[00:12] Rashi Shrishrimal: Rohan, can I start the meeting, should I start speaking? Rohan, can I start the meeting, should I start speaking? Thank you very much. So don't mute that. He can
+
+[00:13] Rohan Dsouza: I'll stop
+
+[00:14] Rashi Shrishrimal: I was talking about it over there
+
+[00:18] Rohan Dsouza: I was talking about it on the hard drive. Yeah, Tina is a person
+
+[01:39] Rashi Shrishrimal: I won't say. Should I start? Huh. So good morning, team. Let's start our daily stand-up by sharing what you completed since yesterday, any blockers and your plans for today. Let's start with Parikshit. Yesterday, I completed updating the sitemap with new Apple smartphone retailers. Today I am working on the landing page metadata. I made partial progress but ran into some inconsistencies with the copy that I will clarify with the growth team. No blockers as such. Okay, cool. What about you Mayank? Okay cool. I'm working on the landing page front-end development. I've made good progress, but I'm waiting on the product team to provide the final design assets which is blocking further work. I will need your help to escalate this further. Meanwhile, I plan to take up other pending to-do issues. I will talk to the product team. Please take up the bug on the scraping of Apple products, which came up yesterday today. What about you, Saksham? I began work on the admin page. I have no blockers and plan What? to continue with the page layout and initial functionality today. Thanks for the updates. Let's close the meeting
+
+## END OF TRANSCRIPT
