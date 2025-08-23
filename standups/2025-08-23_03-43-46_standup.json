@@ -1,0 +1,25 @@
+{
+  "timestamp": "2025-08-23T03:43:46.997844",
+  "trigger_event": "Standup",
+  "team_updates": {
+    "Parikshit": {
+      "SCRUM-13": {
+        "status": "In Progress",
+        "summary": "Started drafting the updated sitemap for Apple smartphone retailers. Collected most of the retailer links. Today, finalizing the sitemap and aligning it with SEO best practices."
+      }
+    },
+    "Mayank": {
+      "SCRUM-20": {
+        "status": "In Progress", 
+        "summary": "Wrapped up minor fixes on the listings page yesterday. Today, starting development on the new landing page with the initial structure in place, awaiting design assets from the product team."
+      }
+    },
+    "Saksham": {
+      "SCRUM-23": {
+        "status": "In Progress",
+        "summary": "Was on leave yesterday. Today, starting with the admin page structure."
+      }
+    }
+  },
+  "blockers": {}
+}

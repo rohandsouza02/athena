@@ -166,6 +166,8 @@ def summarize_standups():
         }
         
         logger.info(f"Successfully generated summary for {len(standup_data)} standups")
+        # f = open('summarised.txt', 'w'):
+
         return False
         # return jsonify(response_data)
         
