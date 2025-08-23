@@ -1,0 +1,39 @@
+{
+  "vexa": {
+    "api_key": null,
+    "base_url": "https://gateway.dev.vexa.ai",
+    "timeout": 30
+  },
+  "google": {
+    "credentials_path": "token.json",
+    "calendar_id": "primary"
+  },
+  "webhook": {
+    "url": "https://99bd3fb3a9ac.ngrok-free.app/transcript",
+    "secret": "athena-webhook-secret",
+    "timeout": 30,
+    "retry_attempts": 3
+  },
+  "meeting": {
+    "default_duration": 30,
+    "standup_time": "06:00",
+    "constant_meeting_url": "https://meet.google.com/grn-tpfj-sjp",
+    "constant_meeting_id": "grn-tpfj-sjp",
+    "attendees": [
+      "rohan.dsouza.7076@gmail.com"
+    ],
+    "timezone": "Asia/Kolkata"
+  },
+  "bot": {
+    "name": "Athena",
+    "join_delay": 10,
+    "max_retries": 3,
+    "transcript_poll_interval": 30
+  },
+  "logging": {
+    "level": "INFO",
+    "file": "athena_bot.log",
+    "max_size": 10485760,
+    "backup_count": 5
+  }
+}

@@ -1,0 +1,271 @@
+{
+    "id": 1626,
+    "platform": "google_meet",
+    "native_meeting_id": "cqe-necx-vqc",
+    "constructed_meeting_url": "https://meet.google.com/cqe-necx-vqc",
+    "status": "active",
+    "start_time": "2025-08-22T23:21:40.089990",
+    "end_time": null,
+    "segments": [
+        {
+            "start": 1.022,
+            "end": 2.022,
+            "text": " Thank you.",
+            "language": "en",
+            "created_at": null,
+            "speaker": "Rashi Shrishrimal",
+            "absolute_start_time": "2025-08-22T23:22:02.652394+00:00",
+            "absolute_end_time": "2025-08-22T23:22:03.652394+00:00"
+        },
+        {
+            "start": 2.022,
+            "end": 4.782,
+            "text": " Okay, I'm speaking now.",
+            "language": "en",
+            "created_at": null,
+            "speaker": "Rashi Shrishrimal",
+            "absolute_start_time": "2025-08-22T23:22:03.652394+00:00",
+            "absolute_end_time": "2025-08-22T23:22:06.412394+00:00"
+        },
+        {
+            "start": 4.782,
+            "end": 5.782,
+            "text": " team.",
+            "language": "en",
+            "created_at": null,
+            "speaker": "Rashi Shrishrimal",
+            "absolute_start_time": "2025-08-22T23:22:06.412394+00:00",
+            "absolute_end_time": "2025-08-22T23:22:07.412394+00:00"
+        },
+        {
+            "start": 5.782,
+            "end": 11.462,
+            "text": " team let's start our daily stand up by sharing what you completed since yesterday any blockers",
+            "language": "en",
+            "created_at": null,
+            "speaker": "Rashi Shrishrimal",
+            "absolute_start_time": "2025-08-22T23:22:07.412394+00:00",
+            "absolute_end_time": "2025-08-22T23:22:13.092394+00:00"
+        },
+        {
+            "start": 11.462,
+            "end": 13.302,
+            "text": " and your plans for today.",
+            "language": "en",
+            "created_at": null,
+            "speaker": "Rashi Shrishrimal",
+            "absolute_start_time": "2025-08-22T23:22:13.092394+00:00",
+            "absolute_end_time": "2025-08-22T23:22:14.932394+00:00"
+        },
+        {
+            "start": 13.302,
+            "end": 16.002,
+            "text": " Let's start with Parikshit.",
+            "language": "en",
+            "created_at": null,
+            "speaker": "Rashi Shrishrimal",
+            "absolute_start_time": "2025-08-22T23:22:14.932394+00:00",
+            "absolute_end_time": "2025-08-22T23:22:17.632394+00:00"
+        },
+        {
+            "start": 16.002,
+            "end": 18.682,
+            "text": " Yesterday, I completed updating the site map",
+            "language": "en",
+            "created_at": null,
+            "speaker": "Rashi Shrishrimal",
+            "absolute_start_time": "2025-08-22T23:22:17.632394+00:00",
+            "absolute_end_time": "2025-08-22T23:22:20.312394+00:00"
+        },
+        {
+            "start": 18.682,
+            "end": 21.002,
+            "text": " with new Apple smartphone retailers.",
+            "language": "en",
+            "created_at": null,
+            "speaker": "Rashi Shrishrimal",
+            "absolute_start_time": "2025-08-22T23:22:20.312394+00:00",
+            "absolute_end_time": "2025-08-22T23:22:22.632394+00:00"
+        },
+        {
+            "start": 21.002,
+            "end": 24.062,
+            "text": " Today, I'm working on the landing page metadata.",
+            "language": "en",
+            "created_at": null,
+            "speaker": "Rashi Shrishrimal",
+            "absolute_start_time": "2025-08-22T23:22:22.632394+00:00",
+            "absolute_end_time": "2025-08-22T23:22:25.692394+00:00"
+        },
+        {
+            "start": 24.062,
+            "end": 27.122,
+            "text": " I made partial progress, but ran into some inconsistencies",
+            "language": "en",
+            "created_at": null,
+            "speaker": "Rashi Shrishrimal",
+            "absolute_start_time": "2025-08-22T23:22:25.692394+00:00",
+            "absolute_end_time": "2025-08-22T23:22:28.752394+00:00"
+        },
+        {
+            "start": 27.122,
+            "end": 33.082,
+            "text": " with the copied and I will clarify with the growth team no blockers as such okay what",
+            "language": "en",
+            "created_at": null,
+            "speaker": "Rashi Shrishrimal",
+            "absolute_start_time": "2025-08-22T23:22:28.752394+00:00",
+            "absolute_end_time": "2025-08-22T23:22:34.712394+00:00"
+        },
+        {
+            "start": 33.082,
+            "end": 34.082,
+            "text": " What about you, Mayank?",
+            "language": "en",
+            "created_at": null,
+            "speaker": null,
+            "absolute_start_time": "2025-08-22T23:22:34.712394+00:00",
+            "absolute_end_time": "2025-08-22T23:22:35.712394+00:00"
+        },
+        {
+            "start": 34.082,
+            "end": 34.921,
+            "text": " I am working.",
+            "language": "en",
+            "created_at": null,
+            "speaker": "Rashi Shrishrimal",
+            "absolute_start_time": "2025-08-22T23:22:35.712394+00:00",
+            "absolute_end_time": "2025-08-22T23:22:36.551394+00:00"
+        },
+        {
+            "start": 34.921,
+            "end": 37.081,
+            "text": " on the landing page front end development.",
+            "language": "en",
+            "created_at": null,
+            "speaker": "Rashi Shrishrimal",
+            "absolute_start_time": "2025-08-22T23:22:36.551394+00:00",
+            "absolute_end_time": "2025-08-22T23:22:38.711394+00:00"
+        },
+        {
+            "start": 36.082,
+            "end": 34.921,
+            "text": " I am working.",
+            "language": "en",
+            "created_at": null,
+            "speaker": null,
+            "absolute_start_time": "2025-08-22T23:22:37.712394+00:00",
+            "absolute_end_time": "2025-08-22T23:22:36.551394+00:00"
+        },
+        {
+            "start": 37.081,
+            "end": 39.781,
+            "text": " I have made good progress, but I'm waiting on product team",
+            "language": "en",
+            "created_at": null,
+            "speaker": "Rashi Shrishrimal",
+            "absolute_start_time": "2025-08-22T23:22:38.711394+00:00",
+            "absolute_end_time": "2025-08-22T23:22:41.411394+00:00"
+        },
+        {
+            "start": 39.781,
+            "end": 42.541,
+            "text": " to provide the final design assets",
+            "language": "en",
+            "created_at": null,
+            "speaker": "Rashi Shrishrimal",
+            "absolute_start_time": "2025-08-22T23:22:41.411394+00:00",
+            "absolute_end_time": "2025-08-22T23:22:44.171394+00:00"
+        },
+        {
+            "start": 42.541,
+            "end": 44.101,
+            "text": " which is blocking for the work.",
+            "language": "en",
+            "created_at": null,
+            "speaker": "Rashi Shrishrimal",
+            "absolute_start_time": "2025-08-22T23:22:44.171394+00:00",
+            "absolute_end_time": "2025-08-22T23:22:45.731394+00:00"
+        },
+        {
+            "start": 44.101,
+            "end": 46.941,
+            "text": " I will need your help to escalate this further.",
+            "language": "en",
+            "created_at": null,
+            "speaker": "Rashi Shrishrimal",
+            "absolute_start_time": "2025-08-22T23:22:45.731394+00:00",
+            "absolute_end_time": "2025-08-22T23:22:48.571394+00:00"
+        },
+        {
+            "start": 46.941,
+            "end": 50.081,
+            "text": " Meanwhile, I plan to take up other pending to do issues.",
+            "language": "en",
+            "created_at": null,
+            "speaker": "Rashi Shrishrimal",
+            "absolute_start_time": "2025-08-22T23:22:48.571394+00:00",
+            "absolute_end_time": "2025-08-22T23:22:51.711394+00:00"
+        },
+        {
+            "start": 50.081,
+            "end": 51.081,
+            "text": " Cool.",
+            "language": "en",
+            "created_at": null,
+            "speaker": "Rashi Shrishrimal",
+            "absolute_start_time": "2025-08-22T23:22:51.711394+00:00",
+            "absolute_end_time": "2025-08-22T23:22:52.711394+00:00"
+        },
+        {
+            "start": 51.081,
+            "end": 55.321,
+            "text": " the product team, please take up the bug on the scraping of Apple products which came",
+            "language": "en",
+            "created_at": null,
+            "speaker": "Rashi Shrishrimal",
+            "absolute_start_time": "2025-08-22T23:22:52.711394+00:00",
+            "absolute_end_time": "2025-08-22T23:22:56.951394+00:00"
+        },
+        {
+            "start": 55.321,
+            "end": 62.421,
+            "text": " up yesterday. What about you, Rohan? I began work on the admin page. I have no blockers",
+            "language": "en",
+            "created_at": null,
+            "speaker": "Rashi Shrishrimal",
+            "absolute_start_time": "2025-08-22T23:22:56.951394+00:00",
+            "absolute_end_time": "2025-08-22T23:23:04.051394+00:00"
+        },
+        {
+            "start": 62.421,
+            "end": 66.421,
+            "text": " and plan to continue with the page layout and initial functionality today.",
+            "language": "en",
+            "created_at": null,
+            "speaker": null,
+            "absolute_start_time": "2025-08-22T23:23:04.051394+00:00",
+            "absolute_end_time": "2025-08-22T23:23:08.051394+00:00"
+        },
+        {
+            "start": 66.421,
+            "end": 67.421,
+            "text": " Cool.",
+            "language": "en",
+            "created_at": null,
+            "speaker": "Rashi Shrishrimal",
+            "absolute_start_time": "2025-08-22T23:23:08.051394+00:00",
+            "absolute_end_time": "2025-08-22T23:23:09.051394+00:00"
+        },
+        {
+            "start": 67.421,
+            "end": 68.701,
+            "text": " Thanks for the updates.",
+            "language": "en",
+            "created_at": null,
+            "speaker": "Rashi Shrishrimal",
+            "absolute_start_time": "2025-08-22T23:23:09.051394+00:00",
+            "absolute_end_time": "2025-08-22T23:23:10.331394+00:00"
+        }
+    ]
+}
