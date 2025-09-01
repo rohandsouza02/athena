@@ -13,6 +13,11 @@ from typing import Dict, List, Any
 from flask import Flask, jsonify
 from openai import OpenAI
 
+from dotenv import load_dotenv
+
+load_dotenv()
+
+OPENAI_API_KEY = os.getenv("OPENAI_API_KEY")
 
 # Configure logging
 logging.basicConfig(
@@ -83,8 +88,7 @@ class StandupSummarizer:
         prompt = self._create_summary_prompt(standup_data)
         try:
             openai_config = self.config.get("openai_config", {})
-            api_key = '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'
-            client = OpenAI(api_key=api_key)
+            client = OpenAI(api_key=OPENAI_API_KEY)
             response = client.chat.completions.create(
                 model=openai_config.get("model", "gpt-4"),
                 messages=[
