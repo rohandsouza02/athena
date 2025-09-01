@@ -305,7 +305,7 @@ class StandupAutomation:
         """Make the actual LLM API call."""
         try:
             from openai import OpenAI
-            api_key = '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'
+            api_key = OPENAI_API_KEY
             if not api_key:
                 logger.error("OpenAI API key not configured")
                 return "Error: OpenAI API key not configured"
