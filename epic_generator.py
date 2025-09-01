@@ -18,6 +18,8 @@ from jira_integration import JiraIntegration
 
 load_dotenv()
 
+OPENAI_API_KEY = os.getenv("OPENAI_API_KEY")
+
 
 @dataclass
 class SprintStory:
@@ -53,7 +55,7 @@ class EpicGenerator:
         self.jira = jira_integration or JiraIntegration()
         
         # Initialize OpenAI
-        openai.api_key = os.getenv("OPENAI_API_KEY") or "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"
+        openai.api_key = OPENAI_API_KEY
         if not openai.api_key:
             raise ValueError("OPENAI_API_KEY environment variable is required")
         
