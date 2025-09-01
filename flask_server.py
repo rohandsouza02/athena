@@ -9,12 +9,15 @@ from typing import Dict, Any
 import os
 from standup_automation import StandupAutomation
 from sprint_report_generator import SprintReportGenerator
+from dotenv import load_dotenv
+
+load_dotenv()
 
 app = Flask(__name__)
 
 # Vexa API Configuration
-VEXA_API_KEY = "Hp1CVO4z4NOmzsj22rEQmop4w72GnzN9kXCRoNws"
-VEXA_BASE_URL = "https://gateway.dev.vexa.ai"
+VEXA_API_KEY = os.getenv("VEXA_API_KEY")
+VEXA_BASE_URL = os.getenv("VEXA_BASE_URL")
 
 
 def process_transcript(json_data: Dict[str, Any]) -> str:
